@@ -12,7 +12,7 @@ public class BmsController {
 	@GetMapping(value="/home")
 	public void home()
 	{
-		System.out.println("***at home****");
+		System.out.println("***home****");
 		
 	}
 	
