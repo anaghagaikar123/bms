@@ -56,11 +56,34 @@
 		<version>2.5</version>
 	</dependency>
 
+	 <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>1.0.0.Final</version>
+    </dependency>
+	
 	<dependency>
-		<groupId>org.hibernate.javax.persistence</groupId>
-		<artifactId>hibernate-jpa-2.0-api</artifactId>
-		<version>1.0.1.Final</version>
-	</dependency>
+   <groupId>commons-configuration</groupId>
+   <artifactId>commons-configuration</artifactId>
+   <version>1.8</version>
+</dependency>
+
+<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+		
+		<dependency>
+     <groupId>javax.persistence</groupId>
+     <artifactId>persistence-api</artifactId>
+     <version>1.0.2</version>
+  </dependency>
+  <!-- issues resolved of creating bean -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
 		
 	</dependencies>
 
