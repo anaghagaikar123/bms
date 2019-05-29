@@ -40,19 +40,19 @@ public class BmsController {
 	}
 	
 	@GetMapping("/allMovies")
-	public List<Movie> allMovies()
+	public List<MovieDTO> allMovies()
 	{
 		 logger.info("allMovies");	
-		 List<Movie> movieList = bmsService.getAllMovies();
+		 List<MovieDTO> movieList = bmsService.getAllMovies();
 		 return movieList;
 	}
 	
 	@GetMapping("/searchByMovie/{id}")
-	public Movie searchByMovie(@PathVariable Long id)
+	public MovieDTO searchByMovie(@PathVariable Long id)
 	{
-		 logger.info("searchByMovie-->{}" + id);	
-		 Movie movie = bmsService.getMovie(id);
-		 return movie;
+		 logger.info("searchByMovie:{}" + id);	
+		 MovieDTO dto = bmsService.getMovie(id);
+		 return dto;
 	}
 	
 	@PutMapping("/updateMovie/{id}/{name}")

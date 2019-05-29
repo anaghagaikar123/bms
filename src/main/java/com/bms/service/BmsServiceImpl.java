@@ -1,15 +1,25 @@
 package com.bms.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bms.database.ActorDAO;
 import com.bms.database.MovieDAO;
+import com.bms.database.MultiplexDAO;
+import com.bms.dto.ActorDTO;
 import com.bms.dto.MovieDTO;
+import com.bms.module.Actor;
 import com.bms.module.Movie;
+import com.example.bms.BmsController;
 
 @Service
 @Transactional
@@ -17,6 +27,14 @@ public class BmsServiceImpl implements BmsService {
 
 	@Autowired
 	MovieDAO movieDAO;
+	
+	@Autowired
+	MultiplexDAO multiplexDAO;
+	
+	@Autowired
+	ActorDAO actorDAO;
+	
+	private static Logger logger = LoggerFactory.getLogger(BmsServiceImpl.class);
 
 	@Override
 	public void print() {
@@ -27,16 +45,46 @@ public class BmsServiceImpl implements BmsService {
 	public void addMovie(MovieDTO movieDTO) {
 		Movie movie = new Movie();
 		if (movieDTO != null) {
-			movie.setName((Optional.ofNullable(movieDTO.getName())).orElse(""));
+			movie.setName(Optional.ofNullable(movieDTO.getName()).orElse(""));
+			movie.setMultiplex(Optional.ofNullable(multiplexDAO.findOne(movieDTO.getMultiplexId())).orElse(null));
+			Set<Long> actorIds = movieDTO.getActorIds();
+			if(actorIds.isEmpty() == false)
+			{
+				 Set<Actor> actors = new HashSet<Actor>();
+				 actorIds.forEach(aId->{
+					 actors.add(Optional.ofNullable(actorDAO.findOne(aId)).orElse(null));
+				 });
+				 movie.setActors(actors);
+			}
 			movieDAO.save(movie);
 		}
 
 	}
 
 	@Override
-	public List<Movie> getAllMovies() {
+	public List<MovieDTO> getAllMovies() {
 		List<Movie> movieList = movieDAO.findAll();
-		return movieList;
+		List<MovieDTO> movieDTOS = new ArrayList<>();
+		
+		if(movieList != null)
+		{
+			movieList.forEach(m->{
+					MovieDTO dto = new MovieDTO();
+					dto.setName(Optional.ofNullable(m.getName()).orElse(""));
+					dto.setMultiplexId(Optional.ofNullable(m.getMultiplex()).map(s -> s.getId()).orElse(null));
+					Set<Actor> actors = m.getActors();
+					if(actors != null)
+					{
+						Set<String> actorsList = new HashSet<>();
+						actors.forEach(a->{
+							actorsList.add(Optional.ofNullable(a.getName()).orElse(""));
+						});
+						dto.setActors(actorsList);
+					}
+					movieDTOS.add(dto);
+			});
+		}
+		return movieDTOS;
 	}
 
 	@Override
@@ -50,9 +98,25 @@ public class BmsServiceImpl implements BmsService {
 	}
 
 	@Override
-	public Movie getMovie(Long id) {
+	public MovieDTO getMovie(Long id) {
 		Movie movie = movieDAO.findOne(id);
-		return Optional.ofNullable(movie).orElse(null);
+		if(movie != null)
+		{
+			MovieDTO dto = new MovieDTO();
+			dto.setName(Optional.ofNullable(movie.getName()).orElse(""));
+			dto.setMultiplexId(Optional.ofNullable(movie.getMultiplex()).map(s -> s.getId()).orElse(null));
+			Set<Actor> actors = movie.getActors();
+			Set<String> actorsList = new HashSet<>();
+			if(actors.isEmpty() == false)
+			{
+			actors.forEach(a->{
+				actorsList.add(Optional.ofNullable(a.getName()).orElse(""));
+			});
+			dto.setActors(actorsList);
+			}
+			return dto ;
+		}
+		return null;
 	}
 
 }

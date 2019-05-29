@@ -1,11 +1,18 @@
 package com.bms.module;
 
+import java.util.Set;
+
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +26,18 @@ public class Movie {
 	
 	@Column(name = "name")
 	private String name;
+	
+	@ManyToOne
+	@JoinColumn(name = "multiplex_id")
+	private Multiplex multiplex ;
+	
+	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "Movie_Actor", 
+        joinColumns = { @JoinColumn(name = "movie_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "actor_id") }
+    )
+    Set<Actor> actors ;
 
 	public Long getId() {
 		return id;
@@ -34,6 +53,22 @@ public class Movie {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Multiplex getMultiplex() {
+		return multiplex;
+	}
+
+	public void setMultiplex(Multiplex multiplex) {
+		this.multiplex = multiplex;
+	}
+	
+	public Set<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(Set<Actor> actors) {
+		this.actors = actors;
 	}
 
 	@Override
