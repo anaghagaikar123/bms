@@ -10,7 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
@@ -26,9 +29,15 @@ public class Multiplex {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="movie_multiplex",joinColumns=@JoinColumn(name="movie_id"),inverseJoinColumns=@JoinColumn(name="multiplex_id"))
-	private Set<Movie> movie;
+	@ManyToMany(mappedBy = "multiplex")
+	private Set<Movie> movies;
+	
+	@OneToMany(mappedBy = "multiplex")
+	private Set<Screen> screens;
+	
+	@OneToOne 
+	@JoinColumn(name = "address_id")
+	private Address address;  
 
 	public Long getId() {
 		return id;
@@ -45,6 +54,23 @@ public class Multiplex {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Set<Movie> getMovies() {
+		return movies;
+	}
+
+	public void setMovies(Set<Movie> movies) {
+		this.movies = movies;
+	}
+
+	public Set<Screen> getScreens() {
+		return screens;
+	}
+
+	public void setScreens(Set<Screen> screens) {
+		this.screens = screens;
+	}
+	
 	
 	
 }

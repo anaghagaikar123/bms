@@ -1,13 +1,11 @@
 package com.example.bms;
 
-import org.apache.ibatis.type.MappedTypes;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages= {"com.example.bms" , "com.bms.database" , "com.bms.service" , "com.bms.dto"})
+@ComponentScan(basePackages= {"com.example.bms" , "com.bms.database" , "com.bms.service" , "com.bms.dto" , "com.bms.controller" , "com.bms.configuration"})
 @EntityScan(basePackages= {"com.bms.module"})
 @SpringBootApplication
 public class BmsApplication {

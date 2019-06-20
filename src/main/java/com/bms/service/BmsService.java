@@ -18,4 +18,8 @@ public interface BmsService {
 
 	public MovieDTO getMovie(Long id);
 
+	public List<MovieDTO> searchMoviesByActor(Long aid);
+
+	public List<MovieDTO> searchMoviesByMultiplex(Long mid);
+
 }

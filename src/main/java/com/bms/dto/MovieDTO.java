@@ -6,9 +6,10 @@ import java.util.Set;
 public class MovieDTO {
 	
 	private String name;
-	private Long multiplexId;
+	private Set<Long> multiplexId;
 	private Set<String> actors;
 	private Set<Long> actorIds;
+	private Set<String> multiplexes;
 
 	public String getName() {
 		return name;
@@ -18,11 +19,11 @@ public class MovieDTO {
 		this.name = name;
 	}
 
-	public Long getMultiplexId() {
+	public Set<Long> getMultiplexId() {
 		return multiplexId;
 	}
 
-	public void setMultiplexId(Long multiplexId) {
+	public void setMultiplexId(Set<Long> multiplexId) {
 		this.multiplexId = multiplexId;
 	}
 
@@ -41,5 +42,15 @@ public class MovieDTO {
 	public void setActorIds(Set<Long> actorIds) {
 		this.actorIds = actorIds;
 	}
+
+	public Set<String> getMultiplexes() {
+		return multiplexes;
+	}
+
+	public void setMultiplexes(Set<String> multiplexes) {
+		this.multiplexes = multiplexes;
+	}
+	
+	
 	
 }
